@@ -4,5 +4,6 @@
 // undefined/None in the output array.
 
 function pluck(objs, name) {
-
+const resultArray = objs.map(el => el[name]);
+return resultArray;
 }
