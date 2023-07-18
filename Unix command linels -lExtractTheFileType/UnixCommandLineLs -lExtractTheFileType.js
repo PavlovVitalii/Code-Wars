@@ -1,6 +1,6 @@
-//On Unix system type files can be identified with the ls -l command 
-//which displays the type of the file in the first alphabetic letter 
-//of the file system permissions field. You can find more information about 
+//On Unix system type files can be identified with the ls -l command
+//which displays the type of the file in the first alphabetic letter
+//of the file system permissions field. You can find more information about
 //file type on Unix system on the wikipedia page.
 
 //'-' A regular file ==> file.
@@ -12,11 +12,32 @@
 //'s' a socket ==> socket.
 //'D' a door ==> door.
 
-//In this kata you should complete a function that return the filetype as a string 
+//In this kata you should complete a function that return the filetype as a string
 //regarding the file_attribute given by the ls -l command.
 
 //For example if the function receive -rwxr-xr-x it should return file.
 
 function linuxType(fileAttribute) {
+  const types = new Map([
+    ["file", /^-/],
+    ["directory", /^d/],
+    ["symlink", /^l/],
+    ["character_file", /^c/],
+    ["block_file", /^b/],
+    ["pipe", /^p/],
+    ["socket", /^s/],
+    ["door", /^D/],
+  ]);
+  
+  let type = "";
 
+ types.forEach((value, key) => {
+    if (value.test(fileAttribute)) {
+      type = key;
+    }
+  });
+
+  return type;
 }
+
+
