@@ -2,6 +2,6 @@
 //The order of the sequence has to stay the same.
 
 function distinct(a) {
-    
-    return [];
+    return [...new Set(a)];
   }
+  
