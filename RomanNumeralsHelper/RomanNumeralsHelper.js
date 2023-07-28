@@ -13,7 +13,7 @@
 
 const romanNumbers = [
   "M",
-  "DM",
+  "СM",
   "D",
   "CD",
   "C",
@@ -45,6 +45,7 @@ class RomanNumerals {
     for (let i = 0; i < str.length; i++) {
       if (romanNumbers.includes(str[i] + str[i + 1])) {
         result += arabNumbers[romanNumbers.indexOf(str[i] + str[i + 1])];
+        i++;
       } else {
         result += arabNumbers[romanNumbers.indexOf(str[i])];
       }
