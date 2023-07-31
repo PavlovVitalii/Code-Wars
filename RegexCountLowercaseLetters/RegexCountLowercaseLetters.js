@@ -5,4 +5,3 @@ function lowercaseCount(str){
     return lowercaseLetters === null ? 0 : lowercaseLetters.join("").length;
 }
 
-console.log(lowercaseCount("b]iva)"));
