@@ -23,47 +23,46 @@
 // by the users screen names and should all be in Title Case.
 
 function generateChatRoomNames(users) {
-  const firstNames = [];
-  const lastNames = [];
-  const result = [];
+  let usersCopy = [...users];
+  let result = [];
+  const rexName = /^[a-zA-Z]+/;
+  const rexLastName = /[a-zA-Z]+$/;
 
-  users.forEach((element) => {
-    const arrFromElement = element.split(" ");
-    firstNames.push(arrFromElement[0]);
-    lastNames.push(arrFromElement[1]);
-  });
-
-  firstNames.forEach((element, index) => {
+  usersCopy.forEach((element, index) => {
     const arrWithoutElement = [
-      ...firstNames.slice(0, index),
-      ...firstNames.slice(index + 1, firstNames.length),
+      ...usersCopy.slice(0, index),
+      ...usersCopy.slice(index + 1, usersCopy.length),
     ];
 
-    if (arrWithoutElement.length > 0 && arrWithoutElement.includes(element)) {
-    
-      if (
-        lastNames[index][0] ===
-        lastNames[arrWithoutElement.indexOf(element) + 1][0]
-      ) {
-    
-        
-        result.push(
-          `${element[0] + element.toLowerCase().slice(1)} ${lastNames[index]}`
-        );
-      
-      } else {
-        result.push(
-          `${element[0] + element.toLowerCase().slice(1)} ${
-            lastNames[index][0]
-          }`
-        );
-      }
-    } else {
-      result.push(`${element[0] + element.toLowerCase().slice(1)}`);
-    }
+    const name = rexName.exec(element)[0];
+    const repitNames = arrWithoutElement.filter(
+      (e) => name === rexName.exec(e)[0]
+    );
+
+    result = [...result, ...repitNames];
   });
 
-  return result.sort();
+  if (result.length !== 0) {
+    usersCopy = usersCopy.filter((e) => !result.includes(e));
+    for (let i = 1; i < result.length; i++) {
+      for (let j = 0; j < i; j++) {
+        if (rexLastName.exec(result[i][0]) !== rexLastName.exec(result[j][0])) {
+          result[i] = `${result[i].split(" ")[0]} ${
+            rexLastName.exec(result[i])[0][0]
+          }`;
+          result[j] = `${result[j].split(" ")[0]} ${
+            rexLastName.exec(result[j])[0][0]
+          }`;
+        }
+      }
+    }
+  }
+
+  result = [...result, ]
+
+  console.log(result);
+  console.log(usersCopy);
+  // return result.sort();
 }
 
 //console.log(generateChatRoomNames(["Joe Bloggs"]));
