@@ -35,51 +35,59 @@ function generateChatRoomNames(users) {
     ];
 
     const name = rexName.exec(element)[0];
-    const repitNames = arrWithoutElement.filter(
+    const repeatNames = arrWithoutElement.filter(
       (e) => name === rexName.exec(e)[0]
     );
 
-    result = [...result, ...repitNames];
+    result = [...result, ...repeatNames];
   });
 
   if (result.length !== 0) {
     usersCopy = usersCopy.filter((e) => !result.includes(e));
-    for (let i = 1; i < result.length; i++) {
-      for (let j = 0; j < i; j++) {
-        if (rexLastName.exec(result[i][0]) !== rexLastName.exec(result[j][0])) {
-          result[i] = `${result[i].split(" ")[0]} ${
-            rexLastName.exec(result[i])[0][0]
-          }`;
-          result[j] = `${result[j].split(" ")[0]} ${
+    result.sort();
+    result.forEach((element, index) => {
+      for (let j = index + 1; j < result.length; j++) {
+        if (rexName.exec(result[index])[0] === rexName.exec(result[j])[0]) {
+          if (
+            rexLastName.exec(result[index])[0][0] !==
             rexLastName.exec(result[j])[0][0]
-          }`;
+          ) {
+            result[index] = `${result[index].split(" ")[0]} ${
+              rexLastName.exec(result[index])[0][0].toUpperCase()
+            }`;
+            result[j] = `${result[j].split(" ")[0]} ${
+              rexLastName.exec(result[j])[0][0]
+            }`;
+          }
         }
       }
-    }
+    });
   }
 
-  result = [...result, ]
-
-  console.log(result);
-  console.log(usersCopy);
-  // return result.sort();
+  usersCopy.forEach((e) => {
+    result.push(
+      `${rexName.exec(e)[0][0]}${rexName.exec(e)[0].slice(1).toLowerCase()}`
+    );
+  });
+  usersCopy = [];
+  return result.sort();
 }
-
+//console.log(generateChatRoomNames(["JOE"]));
 //console.log(generateChatRoomNames(["Joe Bloggs"]));
 //console.log(generateChatRoomNames(["Joe Bloggs", "John Smith"]));
 // console.log(generateChatRoomNames(["Joe Bloggs", "John Smith", "Jane Doe"]));
-console.log(
-  generateChatRoomNames(["Joe Bloggs", "John Smith", "Jane Doe", "Jane Bloggs"])
-);
 // console.log(
 //   generateChatRoomNames(["Joe Bloggs", "John Smith", "Jane Doe", "Jane Bloggs"])
 // );
 // console.log(
-//   generateChatRoomNames([
-//     "Joe Bloggs",
-//     "John Smith",
-//     "Jane Doe",
-//     "Jane Bloggs",
-//     "John Scott",
-//   ])
+//   generateChatRoomNames(["Joe Bloggs", "John Smith", "Jane Doe", "Jane Bloggs"])
 // );
+console.log(
+  generateChatRoomNames([
+    "Joe Bloggs",
+    "John Smith",
+    "Jane Doe",
+    "Jane Bloggs",
+    "John Scott",
+  ])
+);
