@@ -2,10 +2,17 @@
 
 function common(a, b, c) {
   let sum = 0;
-  a.forEach((element) => {
-    if (b.includes(element) && c.includes(element)) {
-      sum += element;
+
+  for (let i = 0; i < a.length; i++) {
+    const indexB = b.indexOf(a[i]);
+    const indexC = c.indexOf(a[i]);
+
+    if (b.indexOf(a[i]) > -1 && c.indexOf(a[i]) > -1) {
+      sum += a[i];
+      b.splice(b.indexOf(a[i]), 1);
+      c.splice(b.indexOf(a[i]), 1);
     }
-  });
+  }
   return sum;
 }
+
