@@ -29,7 +29,78 @@
 //ex2. FIREYYFURYYFURYYFURRYFIRE = "You are fired! I am really furious. You are fired!"
 //ex3. FYRYFIRUFIRUFURE = "Fake tweet."
 
-var fireAndFury = function(tweet) {
-  // Your code here
-  return "Fake tweet."
-}
+// const fireAndFury = function (tweet) {
+//   let fireCount = tweet.split("FIRE").length - 1;
+//   let furyCount = tweet.split("FURY").length - 1;
+//   const fireAndFury = tweet.split(/(^FIRE|^FURY)\w*/);
+//   const indicesFire = [];
+//   const indicesFury = [];
+//   let posFire = tweet.indexOf("FIRE");
+//   let posFury = tweet.indexOf("FURY");
+
+//   let answer = [];
+
+//   while (posFire !== -1) {
+//     indicesFire.push(posFire);
+//     posFire = tweet.indexOf("FIRE", posFire + 1);
+//   }
+
+//   while (posFury !== -1) {
+//     indicesFury.push(posFury);
+//     posFury = tweet.indexOf("FURY", posFury + 1);
+//   }
+
+//   for (let i = 0; i < ; i++) {
+//     if (indicesFire[i] < indicesFury[i]) {
+//       answer.push("You" + " and you ".repeat(fireCount - 1) + "are fired!");
+//       fireCount = 0; // Reset fire count after processing
+//     } else if (indicesFury[i] < indicesFire[i]) {
+//       answer.push("I am " + "really ".repeat(furyCount - 1) + "furious.");
+//       furyCount = 0; // Reset fury count after processing
+//     }
+
+//   }
+
+//   // answer.push("You" + " and you ".repeat(fireCount - 1) + "are fired!");
+//   // answer.push("I am " + "really ".repeat(furyCount - 1) + "furious.");
+
+//   if (answer.length > 0) {
+//     return answer.join(" ");
+//   }
+
+//   return "Fake tweet.";
+// };
+
+const fireAndFury = function (tweet) {
+  const fireAndFury = tweet.match(/FIRE|FURY/g) || [];
+  let fireCount = 0;
+  let furyCount = 0;
+  let result = [];
+
+  if (fireAndFury.length === 0 || /[^FIREYUF]/.test(tweet)) {
+    return "Fake tweet.";
+  }
+
+  for (let i = 0; i < fireAndFury.length; i++) {
+    if (fireAndFury[i] === fireAndFury[i + 1] && i !== fireAndFury.length - 1) {
+      fireAndFury[i] === "FIRE" ? fireCount++ : furyCount++;
+      continue;
+    }
+
+    if (fireAndFury[i] === "FIRE") {
+      result.push("You " + "and you ".repeat(fireCount) + "are fired!");
+      fireCount = 0;
+    } else if (fireAndFury[i] === "FURY") {
+      result.push("I am " + "really ".repeat(furyCount) + "furious.");
+      furyCount = 0;
+    }
+  }
+
+  return result.join(" ");
+};
+console.log(fireAndFury("FURYYYFIREYYFIRE"));
+console.log(fireAndFury("FIREYYFURYYFURYYFURRYFIRE"));
+console.log(fireAndFury("FYRYFIRUFIRUFURE"));
+console.log(fireAndFury("FURY"));
+console.log(fireAndFury("FIRE"));
+console.log(fireAndFury("AAFIREBBFURYCC"));
