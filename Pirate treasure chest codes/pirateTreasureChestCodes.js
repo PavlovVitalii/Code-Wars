@@ -40,13 +40,30 @@
 // Output: String.
 
 
-
-
-
-
-
-
-
 function treasureCode(clue) {
-  //write yer best code here, matey
+  // Split the clue into parts
+  const parts = clue.match(/([A-Z])(\d+)/g);
+  
+  // Extract letters and numbers
+  const letters = parts.map(part => part[0]);
+  const numbers = parts.map(part => parseInt(part.slice(1), 10));
+  
+  // Calculate the greatest common divisor (GCD)
+  const gcd = numbers.reduce((a, b) => {
+    while (b) {
+      [a, b] = [b, a % b];
+    }
+    return a;
+  });
+  
+  // Create the code by dividing each number by the GCD
+  const codeParts = numbers.map(num => num / gcd);
+  
+  // Combine letters and their corresponding codes
+  let code = '';
+  for (let i = 0; i < letters.length; i++) {
+    code += `${letters[i]}${codeParts[i]}`;
+  }
+  
+  return code;     
 }
